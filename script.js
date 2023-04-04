@@ -1,52 +1,53 @@
-// script.js
+// Get the speech recognition object
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
 
-// Get the necessary elements
-const noteTextarea = document.getElementById('note-textarea');
-const startRecordBtn = document.getElementById('start-record-btn');
-const pauseRecordBtn = document.getElementById('pause-record-btn');
-const recordingInstructions = document.getElementById('recording-instructions');
-
-// Check if the browser supports Web Speech API
-if ('webkitSpeechRecognition' in window) {
-  const recognition = new webkitSpeechRecognition();
-
-  // Set the recognition language to the default language of the browser
-  recognition.lang = window.navigator.language;
-
-  // Handle recognition results
-  recognition.onresult = function(event) {
-    const resultIndex = event.resultIndex;
-    const transcript = event.results[resultIndex][0].transcript;
-    noteTextarea.value += transcript;
-  };
-
-  // Handle recognition errors
-  recognition.onerror = function(event) {
-    console.error('Speech recognition error:', event.error);
-  };
-
-  // Handle recognition end
-  recognition.onend = function() {
-    recordingInstructions.textContent = 'Press the Start Speech button and allow access.';
-    startRecordBtn.disabled = false;
-    pauseRecordBtn.disabled = true;
-  };
-
-  // Start recognition on button click
-  startRecordBtn.addEventListener('click', function() {
-    recognition.start();
-    recordingInstructions.textContent = 'Speak now.';
-    startRecordBtn.disabled = true;
-    pauseRecordBtn.disabled = false;
+// Request permission to use the microphone
+if (navigator.permissions) {
+  navigator.permissions.query({name: 'microphone'}).then(permissionObj => {
+    if (permissionObj.state === 'granted') {
+      console.log('Microphone permission granted');
+    } else if (permissionObj.state === 'prompt') {
+      console.log('Microphone permission prompt');
+    } else {
+      console.log('Microphone permission denied');
+    }
+  }).catch(error => {
+    console.log('Error while requesting microphone permission: ' + error);
   });
-
-  // Stop recognition on button click
-  pauseRecordBtn.addEventListener('click', function() {
-    recognition.stop();
-    recordingInstructions.textContent = 'Press the Start Speech button and allow access.';
-    startRecordBtn.disabled = false;
-    pauseRecordBtn.disabled = true;
-  });
-} else {
-  console.error('Web Speech API is not supported in this browser.');
 }
+
+// Set up the speech recognition settings
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.lang = 'en-US';
+
+// Start the speech recognition process when the "Start Speech" button is clicked
+$('#start-record-btn').click(function() {
+  recognition.start();
+});
+
+// Stop the speech recognition process when the "Stop Speech" button is clicked
+$('#pause-record-btn').click(function() {
+  recognition.stop();
+});
+
+// Handle the recognition result
+recognition.onresult = function(event) {
+  let interimTranscript = '';
+  let finalTranscript = '';
+  for (let i = event.resultIndex; i < event.results.length; i++) {
+    let transcript = event.results[i][0].transcript;
+    if (event.results[i].isFinal) {
+      finalTranscript += transcript;
+    } else {
+      interimTranscript += transcript;
+    }
+  }
+  $('#note-textarea').val(finalTranscript);
+};
+
+// Handle errors
+recognition.onerror = function(event) {
+  console.log('Speech recognition error: ' + event.error);
+};

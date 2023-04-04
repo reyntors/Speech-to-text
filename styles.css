@@ -71,6 +71,10 @@ button:focus {
 .note .content {
     margin-bottom: 40px;
 }
+#start-record-btn {
+    
+   background-color: red; 
+}
 
 @media (max-width: 768px) {
     .container {

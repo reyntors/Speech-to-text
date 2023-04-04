@@ -1,0 +1,25 @@
+{
+  "name": "speech-to-text",
+  "version": "1.0.0",
+  "description": "speech-to-texxxt",
+  "main": "script1.js",
+  "scripts": {
+    "test": "npm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reyntors/Speech-to-text.git"
+  },
+  "keywords": [
+    "reyntors"
+  ],
+  "author": "reynard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reyntors/Speech-to-text/issues"
+  },
+  "homepage": "https://github.com/reyntors/Speech-to-text#readme",
+  "dependencies": {
+    "socket.io": "^4.6.1"
+  }
+}

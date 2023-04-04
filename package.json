@@ -1,0 +1,15 @@
+{
+    "name": "my-app",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "node server.js",
+      "build": "npm run build:css && npm run build:js",
+      "build:css": "node-sass src/scss/main.scss public/css/main.css",
+      "build:js": "webpack --mode=production"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "webpack": "^4.44.2"
+    }
+  }
+  

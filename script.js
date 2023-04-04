@@ -3,7 +3,6 @@
 // Get the necessary elements
 const noteTextarea = document.getElementById('note-textarea');
 const startRecordBtn = document.getElementById('start-record-btn');
-const pauseRecordBtn = document.getElementById('pause-record-btn');
 const recordingInstructions = document.getElementById('recording-instructions');
 
 // Check if the browser supports Web Speech API
@@ -62,16 +61,6 @@ if ('webkitSpeechRecognition' in window) {
     console.error('Web Speech API is not supported in this browser.');
   }
 });
-
-
-
-  // Stop recognition on button click
-  pauseRecordBtn.addEventListener('click', function() {
-    recognition.stop();
-    recordingInstructions.textContent = 'Press the Start Speech button and allow access.';
-    startRecordBtn.disabled = false;
-    pauseRecordBtn.disabled = true;
-  });
 } else {
   console.error('Web Speech API is not supported in this browser.');
 }

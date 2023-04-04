@@ -28,7 +28,7 @@ if ('webkitSpeechRecognition' in window) {
   recognition.onend = function() {
     recordingInstructions.textContent = 'Press the Start Speech button and allow access.';
     startRecordBtn.disabled = false;
-    pauseRecordBtn.disabled = true;
+    
   };
 
   // Start recognition on button click
@@ -55,7 +55,7 @@ if ('webkitSpeechRecognition' in window) {
     recognition.onend = function() {
       recordingInstructions.textContent = 'Press the Start Speech button and allow access.';
       startRecordBtn.disabled = false;
-      pauseRecordBtn.disabled = true;
+      
     };
   } else {
     console.error('Web Speech API is not supported in this browser.');
